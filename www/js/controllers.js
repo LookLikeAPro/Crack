@@ -11,6 +11,9 @@ app.controller('DashCtrl', ['$scope',  'sessionService', '$cordovaCamera', funct
     $scope.sendText = '';
     sessionService.sendMessage(text);
   };
+  $scope.play = function(index){
+    angular.element(document.querySelector('#link'+index))[0].play();
+  };
 
   $scope.captureImage = function() {
     var options = {

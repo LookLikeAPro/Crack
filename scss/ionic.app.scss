@@ -20,7 +20,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic"; 
-
+@import "mixins";
 
 .discussion {
 	list-style: none;
@@ -37,6 +37,12 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 		img {
 			display: block; // triangle position
 			width: 100%;
+		}
+		i {
+			font-size: 30px;
+			position: absolute;
+			left: 50%;
+			@include translate(-50%, 0);
 		}
 	}
 	.other {

@@ -4,6 +4,9 @@
     <li ng-repeat="message in messages" ng-class="{'self': message.username==username, 'other':message.username!=username}">
       <div class="avatar">
         <img src="https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png" />
+        <i class="icon ion-radio-waves" ng-click="play($index)">
+          <audio src="{{message.ttsurl}}" id="{{'link'+$index}}" type="audio/mpeg" style="display: none"></audio>
+        </i>
       </div>
       <div class="messages">
         <div ng-if="!message.url">

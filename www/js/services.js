@@ -21,7 +21,7 @@ app.factory('Camera', ['$q', function($q) {
   };
 }]);
 
-app.service('sessionService', function ($rootScope, socket){
+app.service('sessionService', function ($rootScope, socket, $sceDelegate){
   var user = {
     username: 'bob',
     password: '1234',
@@ -51,11 +51,18 @@ app.service('sessionService', function ($rootScope, socket){
     updateusers(_users);
   });
   socket.on('activeusers', function(_users){
-    console.log("called");
     updateusers(_users);
+  });
+  socket.on('connect', function() {
+    if(user.username) {
+      socket.emit('adduser', user.username);
+    }
   });
   socket.on('updatechat', function (message){
     message.time = new Date();
+    if (message.ttsurl) {
+      message.ttsurl = $sceDelegate.trustAs('resourceUrl', message.ttsurl);
+    }
     console.log(message);
     if (message.hasOwnProperty('username')) {
       chatroom.push(message);

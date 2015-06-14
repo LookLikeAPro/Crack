@@ -1,7 +1,7 @@
 // Key: key_live_comDWIN1ZKBYCRwH5aDXcknjyDluyD7I
 // Link: bnc.lt/l/5fu39_k_NN
 
-var app = angular.module('starter', ['ionic', 'btford.socket-io', 'ngCordova']);
+var app = angular.module('starter', ['ionic', 'btford.socket-io', 'ngCordova', 'ngSanitize']);
 
 app.run(function($ionicPlatform, $cordovaCamera) {
   $ionicPlatform.ready(function() {
@@ -17,7 +17,8 @@ app.run(function($ionicPlatform, $cordovaCamera) {
   });
 });
 
-app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $compileProvider) {
+  $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|http|ftp|mailto|chrome-extension):/);
   $ionicConfigProvider.tabs.position('bottom');
   $stateProvider
   .state('login', {
