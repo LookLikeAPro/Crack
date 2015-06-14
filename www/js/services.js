@@ -1,52 +1,3 @@
-app.factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'https://avatars3.githubusercontent.com/u/11214?v=3&s=460'
-  },{
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'https://pbs.twimg.com/profile_images/479090794058379264/84TKj_qa.jpeg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'https://pbs.twimg.com/profile_images/598205061232103424/3j5HUXMY.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'https://pbs.twimg.com/profile_images/578237281384841216/R3ae1n61.png'
-  }];
-
-  return {
-    all: function() {
-      return chats;
-    },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
-        }
-      }
-      return null;
-    }
-  };
-});
-
 app.factory('socket', ['socketFactory',function (socketFactory) {
   mySocket = socketFactory({
     ioSocket: io.connect('http://173.255.194.96:9001')
@@ -76,26 +27,113 @@ app.service('sessionService', function ($rootScope, socket){
     password: '1234',
     email: 'jerryzhou00@gmail.com'
   };
+  var settings = {
+    enableFriends: true,
+    enableTranslation: true,
+    language: 'en'
+  };
+  var users = [];
+  var chatroom = [];
   var messages = [];
-  socket.on('updateusers', function(users){
-    console.log(JSON.stringify(users));
+  var myself = this;
+  var updateusers = function(_users){
+    var temp = [];
+    for (var property in _users) {
+      if (_users.hasOwnProperty(property) && _users[property] && _users[property].toString() !== user.username) {
+        temp.push(myself.getChat(_users[property].toString()));
+      }
+    }
+    users = temp;
+    console.log(users);
+    $rootScope.$broadcast('updateusers');
+  };
+  socket.on('updateusers', function(_users){
+    updateusers(_users);
+  });
+  socket.on('activeusers', function(_users){
+    console.log("called");
+    updateusers(_users);
   });
   socket.on('updatechat', function (message){
-    $rootScope.$broadcast('updatechat', message);
+    message.time = new Date();
+    console.log(message);
+    if (message.hasOwnProperty('username')) {
+      chatroom.push(message);
+      $rootScope.$broadcast('updatechatroom', {});
+    }
+    else {
+      if (message.fromuser != user.username) { //message not from me
+        for(var i=0; i<users.length; i++) {//'userlist' 'ttsurl'
+          if (users[i].username==message.fromuser) {
+            if (users[i].hasOwnProperty('messages')) {
+              users[i].messages.push(message);
+            }
+            else {
+              users[i].messages = [message];
+            }
+          }
+        }
+      }
+      else { //message from me
+        for(var i=0; i<users.length; i++) {
+          if (users[i].username==message.touser) {
+            if (users[i].hasOwnProperty('messages')) {
+              users[i].messages.push(message);
+            }
+            else {
+              users[i].messages = [message];
+            }
+          }
+        }
+      }
+    }
   });
   this.sendMessage = function(message, user){
-    socket.emit('sendchat', message);
+    console.log("sending");
+    if (user) {
+      socket.emit('sendchat', message, user);
+    }
+    else {
+      socket.emit('sendchat', message);
+    }
   };
-  this.login = function(username, email, password) {
-    user.username = username;
+  this.login = function(_username, email, password) {
+    user.username = _username;
     user.email = email;
     user.password = password;
     socket.emit('adduser', user.username);
+    // socket.emit('userlist');
   };
   this.getUsername = function() {
     return user.username;
   };
   this.sendImage = function(imageData){
     socket.emit('sendimage', imageData, 'test.jpg');
+  };
+  this.getUsers = function(){
+    if (users){
+      var removeIndex = users.indexOf(user.username);
+      if (removeIndex > -1) {
+        users.splice(removeIndex, 1);
+      }
+    }
+    return users;
+  };
+  this.getChat = function(username){
+    for (var i=0; i<users.length; i++) {
+      if (users[i].username == username) {
+        return users[i];
+      }
+    }
+    return {username: username, messages: []};
+  };
+  this.getChatroom = function() {
+    return chatroom;
+  };
+  this.setSettings = function(_settings) {
+    settings = _settings;
+  };
+  this.getSettings = function() {
+    return settings;
   };
 });

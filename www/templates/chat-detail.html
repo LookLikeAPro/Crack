@@ -1,14 +1,36 @@
-<!--
-  This template loads for the 'tab.friend-detail' state (app.js)
-  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
-  The FriendsCtrl pulls data from the Friends service (service.js)
-  The Friends service returns an array of friend data
--->
-<ion-view view-title="{{chat.name}}">
-  <ion-content class="padding">
-    <img ng-src="{{chat.face}}" style="width: 64px; height: 64px">
-    <p>
-      {{chat.lastText}}
-    </p>
+<ion-view view-title="{{chat.username}}">
+  <ion-content style="bottom: 94px; background: #e5e5e5;">
+    <ol class="discussion">
+    <li ng-repeat="message in chat.messages" ng-class="{'self': message.fromuser==username}" class="other">
+      <div class="avatar">
+        <img src="https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png" />
+      </div>
+      <div class="messages">
+        <div ng-if="!message.url">
+          <p>{{message.text}}</p>
+          <p ng-if="sessionService.getSettings().enableTranslation">{{message.translation}}</p>
+        </div>
+        <div ng-if="message.url">
+          <img src="{{message.url}}" width="100%" height="auto" ng-click="message.toggleTranslation = !message.toggleTranslation"></img>
+          <div ng-if="message.toggleTranslation">
+            <p>{{message.ocrtext}}</p>
+            <p ng-if="sessionService.getSettings().enableTranslation">{{message.translation}}</p>
+          </div>
+        </div>
+        <time>{{message.fromuser}} • 51 min</time>
+      </div>
+    </li>
+  </ol>
   </ion-content>
+  <div class="write-box">
+      <button class="button button-light" ng-click="captureImage()">
+        +
+      </button>
+      <label class="item item-input">
+        <textarea placeholder="Comments" ng-model="sendText"></textarea>
+      </label>
+      <button class="button button-light" ng-click="sendMessage(sendText)">
+        Send
+      </button>
+    </div>
 </ion-view>

@@ -25,16 +25,15 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 .discussion {
 	list-style: none;
 	margin: 0;
-	padding: 0 0 50px 0; // finality
+	padding: 0 0 30px 0; // finality
 	li {
 		padding: 0.5rem;
 		overflow: hidden;
-		display: flex;
 	}
 	.avatar {
 		width: 40px; // stronger than %
-		// could set height, but gonna bottom-align instead
 		position: relative; // for triangle
+		float:left;
 		img {
 			display: block; // triangle position
 			width: 100%;
@@ -62,9 +61,11 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 		.messages {
 			order: 1;
 			border-bottom-right-radius: 0; // weird shadow fix
+			float:right;
 		}
 		.avatar {
 			order: 2;
+			float:right;
 			&:after {
 				content: "";
 				position: absolute;
@@ -79,24 +80,24 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 			}
 		}
 	}
-	.messages {
-		background: white;
-		padding: 10px;
-		border-radius: 2px;
-		box-shadow: 0 1px 2px rgba(black, 0.2);
-		max-width: 80%;
-		p {
-			font-size: 0.8rem;
-			margin: 0 0 0.2rem 0;
-		}
-		time {
-			font-size: 0.7rem;
-			color: #ccc;
-		}
-	}
 }
 
-
+.messages {
+	background: white;
+	padding: 10px;
+	border-radius: 2px;
+	box-shadow: 0 1px 2px rgba(black, 0.2);
+	max-width: 80%;
+	display:inline-block;
+	p {
+		font-size: 0.8rem;
+		margin: 0 0 0.2rem 0;
+	}
+	time {
+		font-size: 0.7rem;
+		color: #ccc;
+	}
+}
 
 .write-box {
 	width: 100%;

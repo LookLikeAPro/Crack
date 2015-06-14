@@ -1,20 +1,20 @@
-<ion-view view-title="Dashboard">
+<ion-view view-title="Channel">
   <ion-content style="bottom: 94px; background: #e5e5e5;">
     <ol class="discussion">
-    <li ng-repeat="message in messages" ng-class="{'self': message.username==username}" class="other">
+    <li ng-repeat="message in messages" ng-class="{'self': message.username==username, 'other':message.username!=username}">
       <div class="avatar">
-        <img src="http://s3-us-west-2.amazonaws.com/s.cdpn.io/5/profile/profile-80_9.jpg" />
+        <img src="https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png" />
       </div>
       <div class="messages">
         <div ng-if="!message.url">
           <p>{{message.text}}</p>
-          <p>{{message.translation}}</p>
+          <p ng-if="sessionService.getSettings().enableTranslation">{{message.translation}}</p>
         </div>
         <div ng-if="message.url">
           <img src="{{message.url}}" width="100%" height="auto" ng-click="message.toggleTranslation = !message.toggleTranslation"></img>
           <div ng-if="message.toggleTranslation">
             <p>{{message.ocrtext}}</p>
-            <p>{{message.translation}}</p>
+            <p ng-if="sessionService.getSettings().enableTranslation">{{message.translation}}</p>
           </div>
         </div>
         <time>{{message.username}} • 51 min</time>

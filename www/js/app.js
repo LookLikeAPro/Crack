@@ -20,8 +20,11 @@ app.run(function($ionicPlatform, $cordovaCamera) {
 app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
   $ionicConfigProvider.tabs.position('bottom');
   $stateProvider
-
-  // setup an abstract state for the tabs directive
+  .state('login', {
+    url: "/login",
+    templateUrl: "templates/login.html",
+    controller: "LoginCtrl"
+  })
   .state('tab', {
     url: "/tab",
     abstract: true,
@@ -50,7 +53,7 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
     }
   })
   .state('tab.chat-detail', {
-    url: '/chats/:chatId',
+    url: '/chats/:user',
     views: {
       'tab-chats': {
         templateUrl: 'templates/chat-detail.html',
@@ -70,6 +73,6 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/login');
 
 });

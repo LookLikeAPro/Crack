@@ -7678,14 +7678,14 @@ a.button {
 .discussion {
   list-style: none;
   margin: 0;
-  padding: 0 0 50px 0; }
+  padding: 0 0 30px 0; }
   .discussion li {
     padding: 0.5rem;
-    overflow: hidden;
-    display: flex; }
+    overflow: hidden; }
   .discussion .avatar {
     width: 40px;
-    position: relative; }
+    position: relative;
+    float: left; }
     .discussion .avatar img {
       display: block;
       width: 100%; }
@@ -7704,9 +7704,11 @@ a.button {
     align-items: flex-end; }
     .discussion .self .messages {
       order: 1;
-      border-bottom-right-radius: 0; }
+      border-bottom-right-radius: 0;
+      float: right; }
     .discussion .self .avatar {
-      order: 2; }
+      order: 2;
+      float: right; }
       .discussion .self .avatar:after {
         content: "";
         position: absolute;
@@ -7718,17 +7720,20 @@ a.button {
         border-right-color: transparent;
         border-top-color: transparent;
         box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); }
-  .discussion .messages {
-    background: white;
-    padding: 10px;
-    border-radius: 2px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); }
-    .discussion .messages p {
-      font-size: 0.8rem;
-      margin: 0 0 0.2rem 0; }
-    .discussion .messages time {
-      font-size: 0.7rem;
-      color: #ccc; }
+
+.messages {
+  background: white;
+  padding: 10px;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  max-width: 80%;
+  display: inline-block; }
+  .messages p {
+    font-size: 0.8rem;
+    margin: 0 0 0.2rem 0; }
+  .messages time {
+    font-size: 0.7rem;
+    color: #ccc; }
 
 .write-box {
   width: 100%;
