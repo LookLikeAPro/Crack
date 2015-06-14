@@ -1,0 +1,125 @@
+/*
+To customize the look and feel of Ionic, you can override the variables
+in ionic's _variables.scss file.
+
+For example, you might change some of the default colors:
+
+$light:                           #fff !default;
+$stable:                          #f8f8f8 !default;
+$positive:                        #387ef5 !default;
+$calm:                            #11c1f3 !default;
+$balanced:                        #33cd5f !default;
+$energized:                       #ffc900 !default;
+$assertive:                       #ef473a !default;
+$royal:                           #886aea !default;
+$dark:                            #444 !default;
+*/
+
+// The path for our ionicons font files, relative to the built CSS in www/css
+$ionicons-font-path: "../lib/ionic/fonts" !default;
+
+// Include all of Ionic
+@import "www/lib/ionic/scss/ionic"; 
+
+
+.discussion {
+	list-style: none;
+	margin: 0;
+	padding: 0 0 50px 0; // finality
+	li {
+		padding: 0.5rem;
+		overflow: hidden;
+		display: flex;
+	}
+	.avatar {
+		width: 40px; // stronger than %
+		// could set height, but gonna bottom-align instead
+		position: relative; // for triangle
+		img {
+			display: block; // triangle position
+			width: 100%;
+		}
+	}
+	.other {
+		.avatar {
+			&:after {
+				content: "";
+				position: absolute;
+				top: 0;
+				right: 0;
+				width: 0;
+				height: 0;
+				border: 5px solid white;
+				border-left-color: transparent;
+				border-bottom-color: transparent;
+			}
+		}
+	}
+
+	.self {
+		justify-content: flex-end;
+		align-items: flex-end;
+		.messages {
+			order: 1;
+			border-bottom-right-radius: 0; // weird shadow fix
+		}
+		.avatar {
+			order: 2;
+			&:after {
+				content: "";
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 0;
+				height: 0;
+				border: 5px solid white;
+				border-right-color: transparent;
+				border-top-color: transparent;
+				box-shadow: 1px 1px 2px rgba(black, 0.2); // not quite perfect but close
+			}
+		}
+	}
+	.messages {
+		background: white;
+		padding: 10px;
+		border-radius: 2px;
+		box-shadow: 0 1px 2px rgba(black, 0.2);
+		p {
+			font-size: 0.8rem;
+			margin: 0 0 0.2rem 0;
+		}
+		time {
+			font-size: 0.7rem;
+			color: #ccc;
+		}
+	}
+}
+
+
+
+.write-box {
+	width: 100%;
+	padding: 0;
+	position: absolute;
+	bottom: 47px;
+	border-top: 1px solid $dark;
+	button:first-child {
+		min-width: 0px;
+		width: 4% !important;
+		float: left;
+	}
+	label {
+		width: 72%;
+		float: left;
+		display: block;
+		border: 0;
+		margin-top: 1px;
+		textarea {
+			padding: 0px;
+		}
+	}
+	button:last-child {
+		width: 20%;
+		float: right;
+	}
+}

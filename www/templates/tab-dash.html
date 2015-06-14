@@ -1,0 +1,30 @@
+<ion-view view-title="Dashboard">
+  <ion-content style="bottom: 94px; background: #e5e5e5;">
+    <ol class="discussion">
+    <li ng-repeat="message in messages" ng-class="{'self': message.username==username}" class="other">
+      <div class="avatar">
+        <img src="http://s3-us-west-2.amazonaws.com/s.cdpn.io/5/profile/profile-80_9.jpg" />
+      </div>
+      <div class="messages">
+        <div ng-if="message.text">
+          <p>{{message.text}}</p>
+          <p>{{message.translation}}</p>
+        </div>
+        <img ng-if="message.url" src="{{message.url}}"></img>
+        <time datetime="2009-11-13T20:00">{{message.username}} • 51 min</time>
+      </div>
+    </li>
+  </ol>
+  </ion-content>
+  <div class="write-box">
+      <button class="button button-light" ng-click="captureImage()">
+        +
+      </button>
+      <label class="item item-input">
+        <textarea placeholder="Comments" ng-model="sendText"></textarea>
+      </label>
+      <button class="button button-light" ng-click="sendMessage(sendText)">
+        Send
+      </button>
+    </div>
+</ion-view>
