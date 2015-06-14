@@ -1,10 +1,6 @@
-// Ionic Starter App
+// Key: key_live_comDWIN1ZKBYCRwH5aDXcknjyDluyD7I
+// Link: bnc.lt/l/5fu39_k_NN
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
 var app = angular.module('starter', ['ionic', 'btford.socket-io', 'ngCordova']);
 
 app.run(function($ionicPlatform, $cordovaCamera) {

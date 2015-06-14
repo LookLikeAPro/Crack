@@ -1,9 +1,26 @@
 <ion-view view-title="Account">
-  <ion-content>
+  <ion-content style="bottom:94px;">
     <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Enable Friends
+    <a class="item item-thumbnail-left" href="#">
+      <img src="cover.jpg">
+      <h2>{{username}}</h2>
+      <p>New member</p>
+    </a>
+    <div class="item item-divider">
+    Translations
+  </div>
+    <ion-toggle  ng-model="settings.enableTranslation">
+        Enable Translation
     </ion-toggle>
+    <div>
+    <ion-radio ng-repeat="language in languages" ng-model="settings.language" ng-value="{{language.code}}">	
+    	{{language.display}}
+    </ion-radio>
+    </div>
+    
     </ion-list>
   </ion-content>
+  <button class="button button-full button-assertive button-bottom">
+  Log out
+</button>
 </ion-view>

@@ -7751,3 +7751,7 @@ a.button {
   .write-box button:last-child {
     width: 20%;
     float: right; }
+
+.button-bottom {
+  position: absolute;
+  bottom: 47px; }

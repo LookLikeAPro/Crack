@@ -18,11 +18,7 @@ app.controller('DashCtrl', ['$scope',  'sessionService', '$cordovaCamera', funct
       quality: 50,
       destinationType: Camera.DestinationType.DATA_URL,
       sourceType: Camera.PictureSourceType.CAMERA,
-      allowEdit: true,
       encodingType: Camera.EncodingType.JPEG,
-      targetWidth: 100,
-      targetHeight: 100,
-      popoverOptions: CameraPopoverOptions,
       saveToPhotoAlbum: false
     };
 
@@ -46,15 +42,15 @@ app.controller('ChatsCtrl', function($scope, Chats) {
 
 app.controller('ChatDetailCtrl', function($scope, $stateParams, Chats, socket) {
   $scope.chat = Chats.get($stateParams.chatId);
-  socket.emit('new message', {text:'ol'});
-  socket.on('test', function (data) {
-    console.log("RECEIVED:"+JSON.stringify(data));
-  });
 
 }); 
 
-app.controller('AccountCtrl', function($scope) {
+app.controller('AccountCtrl', function($scope, sessionService) {
   $scope.settings = {
-    enableFriends: true
+    enableFriends: true,
+    enableTranslation: true,
+    language: 'en'
   };
+  $scope.languages = [{display:'English', code:'en'}, {display:'French', code:'fr'}, {display:'Japanese', code:'jp'}];
+  $scope.username = sessionService.getUsername();
 });

@@ -72,7 +72,7 @@ app.factory('Camera', ['$q', function($q) {
 
 app.service('sessionService', function ($rootScope, socket){
   var user = {
-    username: 'Bob',
+    username: 'bob',
     password: '1234',
     email: 'jerryzhou00@gmail.com'
   };
@@ -81,7 +81,6 @@ app.service('sessionService', function ($rootScope, socket){
     console.log(JSON.stringify(users));
   });
   socket.on('updatechat', function (message){
-    alert(JSON.stringify(message));
     $rootScope.$broadcast('updatechat', message);
   });
   this.sendMessage = function(message, user){
