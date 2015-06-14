@@ -47,6 +47,7 @@ app.service('sessionService', function ($rootScope, socket, $sceDelegate, $ionic
     }
     users = temp;
     console.log(users);
+    socket.emit('userlist');
     $rootScope.$broadcast('updateusers');
   });
   socket.on('activeusers', function(_users){
@@ -122,7 +123,6 @@ this.login = function(_username, email, password) {
   user.email = email;
   user.password = password;
   socket.emit('adduser', user.username);
-  socket.emit('userlist');
 };
 this.getUsername = function() {
   return user.username;
