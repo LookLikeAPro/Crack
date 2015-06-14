@@ -36,7 +36,7 @@ app.service('sessionService', function ($rootScope, socket, $sceDelegate){
   var chatroom = [];
   var messages = [];
   var myself = this;
-  var updateusers = function(_users){
+  socket.on('updateusers', function(_users){
     var temp = [];
     for (var property in _users) {
       if (_users.hasOwnProperty(property) && _users[property] && _users[property].toString() !== user.username) {
@@ -46,12 +46,17 @@ app.service('sessionService', function ($rootScope, socket, $sceDelegate){
     users = temp;
     console.log(users);
     $rootScope.$broadcast('updateusers');
-  };
-  socket.on('updateusers', function(_users){
-    updateusers(_users);
   });
   socket.on('activeusers', function(_users){
-    updateusers(_users);
+    for (var property in _users) {
+      if (_users.hasOwnProperty(property)) {
+        for (var i=0; i<users.length; i++) {
+          if (users[i].username == property) {
+            users[i].avatar = _users[property];
+          }
+        }
+      }
+    }
   });
   socket.on('connect', function() {
     if(user.username) {
@@ -95,52 +100,52 @@ app.service('sessionService', function ($rootScope, socket, $sceDelegate){
       }
     }
   });
-  this.sendMessage = function(message, user){
-    console.log("sending");
-    if (user) {
-      socket.emit('sendchat', message, user);
+this.sendMessage = function(message, user){
+  console.log("sending");
+  if (user) {
+    socket.emit('sendchat', message, user);
+  }
+  else {
+    socket.emit('sendchat', message);
+  }
+};
+this.login = function(_username, email, password) {
+  user.username = _username;
+  user.email = email;
+  user.password = password;
+  socket.emit('adduser', user.username);
+  socket.emit('userlist');
+};
+this.getUsername = function() {
+  return user.username;
+};
+this.sendImage = function(imageData){
+  socket.emit('sendimage', imageData, 'test.jpg');
+};
+this.getUsers = function(){
+  if (users){
+    var removeIndex = users.indexOf(user.username);
+    if (removeIndex > -1) {
+      users.splice(removeIndex, 1);
     }
-    else {
-      socket.emit('sendchat', message);
+  }
+  return users;
+};
+this.getChat = function(username){
+  for (var i=0; i<users.length; i++) {
+    if (users[i].username == username) {
+      return users[i];
     }
-  };
-  this.login = function(_username, email, password) {
-    user.username = _username;
-    user.email = email;
-    user.password = password;
-    socket.emit('adduser', user.username);
-    // socket.emit('userlist');
-  };
-  this.getUsername = function() {
-    return user.username;
-  };
-  this.sendImage = function(imageData){
-    socket.emit('sendimage', imageData, 'test.jpg');
-  };
-  this.getUsers = function(){
-    if (users){
-      var removeIndex = users.indexOf(user.username);
-      if (removeIndex > -1) {
-        users.splice(removeIndex, 1);
-      }
-    }
-    return users;
-  };
-  this.getChat = function(username){
-    for (var i=0; i<users.length; i++) {
-      if (users[i].username == username) {
-        return users[i];
-      }
-    }
-    return {username: username, messages: []};
-  };
-  this.getChatroom = function() {
-    return chatroom;
-  };
-  this.setSettings = function(_settings) {
-    settings = _settings;
-  };
-  this.getSettings = function() {
-    return settings;
-  };
+  }
+  return {username: username, messages: []};
+};
+this.getChatroom = function() {
+  return chatroom;
+};
+this.setSettings = function(_settings) {
+  settings = _settings;
+};
+this.getSettings = function() {
+  return settings;
+};
 });

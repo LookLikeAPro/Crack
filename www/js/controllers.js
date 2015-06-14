@@ -6,7 +6,7 @@ app.controller('LoginCtrl', function($scope, $state, sessionService) {
   
 }); 
 
-app.controller('DashCtrl', ['$scope',  'sessionService', '$cordovaCamera', '$interval', function ($scope, sessionService, $cordovaCamera, $interval) {
+app.controller('DashCtrl', ['$scope',  'sessionService', '$cordovaCamera', '$interval', '$cordovaImagePicker', function ($scope, sessionService, $cordovaCamera, $interval, $cordovaImagePicker) {
   $scope.sendMessage = function(text) {
     $scope.sendText = '';
     sessionService.sendMessage(text);
@@ -14,7 +14,21 @@ app.controller('DashCtrl', ['$scope',  'sessionService', '$cordovaCamera', '$int
   $scope.play = function(index){
     angular.element(document.querySelector('#link'+index))[0].play();
   };
-
+  $scope.pickImage = function () {
+    var options = {
+      maximumImagesCount: 10,
+      width: 800,
+      height: 800,
+      quality: 80
+    };
+    $cordovaImagePicker.getPictures(options)
+    .then(function (results) {
+      for (var i = 0; i < results.length; i++) {
+        sessionService.sendImage(results[i]);
+      }
+    }, function(error) {
+    });
+  };
   $scope.captureImage = function() {
     var options = {
       quality: 50,
@@ -60,11 +74,26 @@ app.controller('ChatsCtrl', function($scope, $interval, sessionService) {
   });
 });
 
-app.controller('ChatDetailCtrl', ['$scope', '$stateParams', 'sessionService', '$interval', function($scope, $stateParams, sessionService, $interval) {
+app.controller('ChatDetailCtrl', ['$scope', '$stateParams', 'sessionService', '$interval', '$cordovaImagePicker', function($scope, $stateParams, sessionService, $interval, $cordovaImagePicker) {
   $scope.chat = sessionService.getChat($stateParams.user);
   $scope.sendMessage = function(text) {
     $scope.sendText = '';
     sessionService.sendMessage(text, $stateParams.user);
+  };
+  $scope.pickImage = function () {
+    var options = {
+      maximumImagesCount: 10,
+      width: 800,
+      height: 800,
+      quality: 80
+    };
+    $cordovaImagePicker.getPictures(options)
+    .then(function (results) {
+      for (var i = 0; i < results.length; i++) {
+        sessionService.sendImage(results[i]);
+      }
+    }, function(error) {
+    });
   };
   $scope.captureImage = function() {
     var options = {

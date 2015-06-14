@@ -3,7 +3,7 @@
     <ol class="discussion">
     <li ng-repeat="message in chat.messages" ng-class="{'self': message.fromuser==username}" class="other">
       <div class="avatar">
-        <img src="https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png" />
+        <img src="{{message.avatar}}" />
         <i class="icon ion-radio-waves" ng-click="play($index)">
           <audio src="{{message.ttsurl}}" id="{{'link'+$index}}" type="audio/mpeg" style="display: none"></audio>
         </i>
@@ -26,8 +26,11 @@
   </ol>
   </ion-content>
   <div class="write-box">
-      <button class="button button-light" ng-click="captureImage()">
-        +
+      <button class="button icon" ng-click="captureImage()">
+        <i class="icon ion-ios-camera"></i>
+      </button>
+      <button class="button icon" ng-click="pickImage()">
+        <i class="icon ion-ios-photos"></i>
       </button>
       <label class="item item-input">
         <textarea placeholder="Comments" ng-model="sendText"></textarea>

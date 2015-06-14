@@ -111,13 +111,22 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 	position: absolute;
 	bottom: 47px;
 	border-top: 1px solid $dark;
-	button:first-child {
+
+	button.icon {
 		min-width: 0px;
-		width: 4% !important;
+		width: 8% !important;
 		float: left;
+		display: block;
+		background-color: white;
+		border: 0;
+		i.icon {
+			min-width: 0px;
+			font-size: 10px !important;
+			margin-left: -10px;
+		}
 	}
 	label {
-		width: 72%;
+		width: 64%;
 		float: left;
 		display: block;
 		border: 0;
