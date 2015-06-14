@@ -6,7 +6,7 @@ app.controller('LoginCtrl', function($scope, $state, sessionService) {
   
 }); 
 
-app.controller('DashCtrl', ['$scope',  'sessionService', '$cordovaCamera', function ($scope, sessionService, $cordovaCamera) {
+app.controller('DashCtrl', ['$scope',  'sessionService', '$cordovaCamera', '$interval', function ($scope, sessionService, $cordovaCamera, $interval) {
   $scope.sendMessage = function(text) {
     $scope.sendText = '';
     sessionService.sendMessage(text);
@@ -29,7 +29,18 @@ app.controller('DashCtrl', ['$scope',  'sessionService', '$cordovaCamera', funct
     }, function(err) {
       // error
     });
-    
+  };
+  $interval(function(){
+    $scope.currentDate = new Date();
+  }, 1000);
+  $scope.formatTime = function(time){
+    time = parseInt(time);
+    if (time < 1){
+      return '< 1 min';
+    }
+    else {
+      return time + ' min';
+    }
   };
   $scope.messages = sessionService.getChatroom();
   $scope.username = sessionService.getUsername();
@@ -49,7 +60,7 @@ app.controller('ChatsCtrl', function($scope, $interval, sessionService) {
   });
 });
 
-app.controller('ChatDetailCtrl', function($scope, $stateParams, socket, sessionService) {
+app.controller('ChatDetailCtrl', function($scope, $stateParams, socket, sessionService, $interval) {
   $scope.chat = sessionService.getChat($stateParams.user);
   $scope.sendMessage = function(text) {
     $scope.sendText = '';
@@ -69,7 +80,21 @@ app.controller('ChatDetailCtrl', function($scope, $stateParams, socket, sessionS
       // error
     });
   };
-
+  $interval(function(){
+    $scope.currentDate = new Date();
+  }, 1000);
+  $scope.formatTime = function(time){
+    time = parseInt(time);
+    if (time < 1){
+      return '< 1 min';
+    }
+    else {
+      return time + ' min';
+    }
+  };
+  $scope.play = function(index){
+    angular.element(document.querySelector('#link'+index))[0].play();
+  };
   $scope.username = sessionService.getUsername();
   $scope.sessionService = sessionService; //holy shit bad code
 }); 

@@ -64,7 +64,7 @@ app.service('sessionService', function ($rootScope, socket, $sceDelegate){
       message.ttsurl = $sceDelegate.trustAs('resourceUrl', message.ttsurl);
     }
     console.log(message);
-    if (message.hasOwnProperty('username')) {
+    if (message.hasOwnProperty('username') || !message.hasOwnProperty('touser')) {
       chatroom.push(message);
       $rootScope.$broadcast('updatechatroom', {});
     }

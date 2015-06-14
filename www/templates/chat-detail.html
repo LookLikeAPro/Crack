@@ -4,6 +4,9 @@
     <li ng-repeat="message in chat.messages" ng-class="{'self': message.fromuser==username}" class="other">
       <div class="avatar">
         <img src="https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png" />
+        <i class="icon ion-radio-waves" ng-click="play($index)">
+          <audio src="{{message.ttsurl}}" id="{{'link'+$index}}" type="audio/mpeg" style="display: none"></audio>
+        </i>
       </div>
       <div class="messages">
         <div ng-if="!message.url">
@@ -17,7 +20,7 @@
             <p ng-if="sessionService.getSettings().enableTranslation">{{message.translation}}</p>
           </div>
         </div>
-        <time>{{message.fromuser}} • 51 min</time>
+        <time>{{message.username}} • {{formatTime((currentDate - message.time)/60000)}}</time>
       </div>
     </li>
   </ol>

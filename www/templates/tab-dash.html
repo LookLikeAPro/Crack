@@ -20,7 +20,7 @@
             <p ng-if="sessionService.getSettings().enableTranslation">{{message.translation}}</p>
           </div>
         </div>
-        <time>{{message.username}} • 51 min</time>
+        <time>{{message.username}} • {{formatTime((currentDate - message.time)/60000)}}</time>
       </div>
     </li>
   </ol>
