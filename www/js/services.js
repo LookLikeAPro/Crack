@@ -21,7 +21,7 @@ app.factory('Camera', ['$q', function($q) {
   };
 }]);
 
-app.service('sessionService', function ($rootScope, socket, $sceDelegate){
+app.service('sessionService', function ($rootScope, socket, $sceDelegate, $ionicTabsDelegate){
   var user = {
     username: 'bob',
     password: '1234',
@@ -36,6 +36,8 @@ app.service('sessionService', function ($rootScope, socket, $sceDelegate){
   var chatroom = [];
   var messages = [];
   var myself = this;
+  myself.channelNotif = 0;
+  myself.messageNotif = 0;
   socket.on('updateusers', function(_users){
     var temp = [];
     for (var property in _users) {
@@ -71,6 +73,9 @@ app.service('sessionService', function ($rootScope, socket, $sceDelegate){
     console.log(message);
     if (message.hasOwnProperty('username') || !message.hasOwnProperty('touser')) {
       chatroom.push(message);
+      if ($ionicTabsDelegate.selectedIndex() !== 0){
+        myself.channelNotif++;
+      }
       $rootScope.$broadcast('updatechatroom', {});
     }
     else {
@@ -97,6 +102,9 @@ app.service('sessionService', function ($rootScope, socket, $sceDelegate){
             }
           }
         }
+      }
+      if ($ionicTabsDelegate.selectedIndex() !== 1){
+        myself.messageNotif++;
       }
     }
   });

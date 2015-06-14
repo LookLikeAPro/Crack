@@ -29,6 +29,7 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
   .state('tab', {
     url: "/tab",
     abstract: true,
+    controller: 'TabsCtrl',
     templateUrl: "templates/tabs.html"
   })
   .state('tab.dash', {

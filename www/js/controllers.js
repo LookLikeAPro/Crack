@@ -4,7 +4,13 @@ app.controller('LoginCtrl', function($scope, $state, sessionService) {
     $state.go('tab.dash');
   };
   
+});
+
+app.controller('TabsCtrl', function($scope, sessionService) {  
+  $scope.sessionService = sessionService; //holy shit bad code
+  
 }); 
+
 
 app.controller('DashCtrl', ['$scope',  'sessionService', '$cordovaCamera', '$interval', '$cordovaImagePicker', function ($scope, sessionService, $cordovaCamera, $interval, $cordovaImagePicker) {
   $scope.sendMessage = function(text) {
