@@ -17,8 +17,8 @@ app.run(function($ionicPlatform, $cordovaCamera) {
   });
 });
 
-app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $compileProvider) {
-  $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|http|ftp|mailto|chrome-extension):/);
+app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+  // $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|http|ftp|mailto|chrome-extension):/);
   $ionicConfigProvider.tabs.position('bottom');
   $stateProvider
   .state('login', {
@@ -31,9 +31,6 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $c
     abstract: true,
     templateUrl: "templates/tabs.html"
   })
-
-  // Each tab has its own nav history stack:
-
   .state('tab.dash', {
     url: '/dash',
     views: {

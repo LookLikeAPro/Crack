@@ -60,7 +60,7 @@ app.controller('ChatsCtrl', function($scope, $interval, sessionService) {
   });
 });
 
-app.controller('ChatDetailCtrl', function($scope, $stateParams, socket, sessionService, $interval) {
+app.controller('ChatDetailCtrl', ['$scope', '$stateParams', 'sessionService', '$interval', function($scope, $stateParams, sessionService, $interval) {
   $scope.chat = sessionService.getChat($stateParams.user);
   $scope.sendMessage = function(text) {
     $scope.sendText = '';
@@ -97,7 +97,7 @@ app.controller('ChatDetailCtrl', function($scope, $stateParams, socket, sessionS
   };
   $scope.username = sessionService.getUsername();
   $scope.sessionService = sessionService; //holy shit bad code
-}); 
+}]); 
 
 app.controller('AccountCtrl', function($scope, sessionService) {
   $scope.settings = {
